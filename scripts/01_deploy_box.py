@@ -8,7 +8,7 @@ from brownie import (
     network,
     Contract,
 )
-from scripts.helpful_scripts import get_account, encode_function_data
+from scripts.helpful_scripts import get_account, encode_function_data, upgrade
 
 
 def main():
@@ -47,7 +47,7 @@ def main():
         publish_source=config["networks"][network.show_active()]["verify"],
     )
 
-    proxy_admin.upgrade(proxy, box_v2.address, {"from": account})
+    upgrade(account, proxy, box_v2.address, proxy_admin)
 
     proxy_box_v2 = Contract.from_abi("Box", proxy.address, BoxV2.abi)
     proxy_box_v2.increment({"from": account})
